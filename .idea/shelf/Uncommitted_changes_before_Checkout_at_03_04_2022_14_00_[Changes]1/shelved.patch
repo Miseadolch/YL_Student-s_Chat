@@ -1,0 +1,162 @@
+Index: data/chats.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import datetime\r\nimport sqlalchemy\r\nfrom sqlalchemy import orm\r\n\r\nfrom .db_session import SqlAlchemyBase\r\n\r\n\r\nclass Chats(SqlAlchemyBase):\r\n    __tablename__ = 'chats'\r\n    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)\r\n    title = sqlalchemy.Column(sqlalchemy.String, nullable=True)\r\n    collaborators = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)\r\n    messages = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)\r\n    modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)\r\n    categories = orm.relation(\"Messages\",\r\n                              secondary=\"association\",\r\n                              backref=\"messages\")\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/data/chats.py b/data/chats.py
+--- a/data/chats.py	
++++ b/data/chats.py	
+@@ -9,8 +9,8 @@
+     __tablename__ = 'chats'
+     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+     title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+-    collaborators = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
+-    messages = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
++    collaborators = sqlalchemy.Column(sqlalchemy.String, index=True, nullable=True)
++    messages = sqlalchemy.Column(sqlalchemy.String, index=True, nullable=True)
+     modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
+     categories = orm.relation("Messages",
+                               secondary="association",
+Index: forms/message_form.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask_wtf import FlaskForm\r\nfrom wtforms import SubmitField, TextAreaField\r\n\r\n\r\nclass MessageForm(FlaskForm):\r\n    message = TextAreaField('message')\r\n    submit = SubmitField('Enter')\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/forms/message_form.py b/forms/message_form.py
+--- a/forms/message_form.py	
++++ b/forms/message_form.py	
+@@ -4,4 +4,4 @@
+ 
+ class MessageForm(FlaskForm):
+     message = TextAreaField('message')
+-    submit = SubmitField('Enter')
++    submit = SubmitField('Отправить')
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import io\r\nimport os\r\n\r\nfrom PIL import Image\r\nfrom flask import Flask\r\nfrom flask import render_template, request, redirect, abort, jsonify, make_response\r\nfrom flask_login import LoginManager, login_user, login_required, logout_user, current_user\r\nfrom data import db_session\r\nfrom data.chats import Chats\r\nfrom forms.chats_form import ChatForm\r\nfrom forms.edit_chat_from import EditChatForm\r\nfrom data.messages import Messages\r\nfrom data.users import User\r\nfrom forms.message_form import MessageForm\r\nfrom forms.user_login import RegisterForm, LoginForm\r\n\r\napp = Flask(__name__)\r\napp.config['SECRET_KEY'] = 'yandexlyceum_secret_key'\r\n\r\nlogin_manager = LoginManager()\r\nlogin_manager.init_app(app)\r\n\r\n\r\n@app.errorhandler(404)\r\ndef not_found(error):\r\n    return make_response(jsonify({'error': 'Not found'}), 404)\r\n\r\n\r\ndef convert_to_binary_data(filename):\r\n    with open(filename, 'rb') as file:\r\n        blob_data = file.read()\r\n    return blob_data\r\n\r\n\r\n@login_manager.user_loader\r\ndef load_user(user_id):\r\n    db_sess = db_session.create_session()\r\n    return db_sess.query(User).get(user_id)\r\n\r\n\r\n@app.route(\"/main_chat/<int:user_id>\", methods=['POST', 'GET'])\r\ndef main_chat(user_id):\r\n    form = MessageForm()\r\n    db_sess = db_session.create_session()\r\n    chat = db_sess.query(Chats).filter(Chats.id == 1).first()\r\n    user = db_sess.query(User).filter(User.id == user_id).first()\r\n    photo = Image.open(io.BytesIO(user.photo))\r\n    photo.save('static/img/photo_for_ava_for_user{}.png'.format(user.id))\r\n    author = chat.collaborators.split(' ')[0]\r\n    if author != \"all\":\r\n        author = int(author)\r\n    else:\r\n        author = -1\r\n    if form.validate_on_submit():\r\n        if form.message.data is not None and form.message.data != \"\":\r\n            mess = Messages()\r\n            mess.chat_id = chat.id\r\n            mess.user_id = user_id\r\n            mess.text = form.message.data\r\n            db_sess.add(mess)\r\n            db_sess.commit()\r\n        form.message.data = \"\"\r\n        db_sess.commit()\r\n    form.message.data = \"\"\r\n    messages = db_sess.query(Messages).filter(Messages.chat_id == chat.id).all()\r\n    user_chats = db_sess.query(Chats).filter(\r\n        (Chats.collaborators.like(\"%{}%\".format(current_user.id))) | (\r\n            Chats.collaborators.like(\"%all%\"))).all()\r\n    return render_template(\"chat.html\", form=form, photo=user.id, messages=messages, title=chat.title,\r\n                           user_chats=user_chats, chat_id=1, author=author)\r\n\r\n\r\n@app.route(\"/chat/<int:chat_id>/<int:user_id>\", methods=['POST', 'GET'])\r\ndef own_chat(chat_id, user_id):\r\n    form = MessageForm()\r\n    db_sess = db_session.create_session()\r\n    chat = db_sess.query(Chats).filter(Chats.id == chat_id).first()\r\n    user = db_sess.query(User).filter(User.id == user_id).first()\r\n    author = chat.collaborators.split(' ')[0]\r\n    if author != \"all\":\r\n        author = int(author)\r\n    else:\r\n        author = -1\r\n    if form.validate_on_submit():\r\n        if form.message.data is not None and form.message.data != \"\":\r\n            mess = Messages()\r\n            mess.chat_id = chat.id\r\n            mess.user_id = user_id\r\n            mess.text = form.message.data\r\n            db_sess.add(mess)\r\n            db_sess.commit()\r\n        form.message.data = \"\"\r\n        db_sess.commit()\r\n    form.message.data = \"\"\r\n    messages = db_sess.query(Messages).filter(Messages.chat_id == chat.id).all()\r\n    user_chats = db_sess.query(Chats).filter(\r\n        (Chats.collaborators.like(\"%{}%\".format(current_user.id))) | (\r\n            Chats.collaborators.like(\"%all%\"))).all()\r\n    return render_template(\"chat.html\", form=form, photo=user.id, messages=messages, title=chat.title,\r\n                           user_chats=user_chats, chat_id=chat_id, author=author)\r\n\r\n\r\n@app.route('/register', methods=['POST', 'GET'])\r\ndef reg_users():\r\n    db_sess = db_session.create_session()\r\n    form = RegisterForm()\r\n    user_first = db_sess.query(User).filter(User.id == 1).first()\r\n    if form.validate_on_submit():\r\n        if form.password.data != form.password_again.data:\r\n            return render_template('register.html', title='Registration',\r\n                                   form=form,\r\n                                   message=\"Passwords don't match\")\r\n        db_sess = db_session.create_session()\r\n        if db_sess.query(User).filter((User.email == form.email.data) | (User.nickname == form.nickname.data)).first():\r\n            return render_template('register.html', title='Registration',\r\n                                   form=form,\r\n                                   message=\"There is already such a user\")\r\n        if ' ' in form.nickname.data:\r\n            return render_template('register.html', title='Registration',\r\n                                   form=form,\r\n                                   message=\"В никнеймах нельзя использовать пробел\")\r\n        user = User(\r\n            email=form.email.data,\r\n            nickname=form.nickname.data,\r\n            surname=form.surname.data,\r\n            name=form.name.data,\r\n            group=form.group.data,\r\n            photo=user_first.photo\r\n        )\r\n        user.set_password(form.password.data)\r\n        db_sess.add(user)\r\n        db_sess.commit()\r\n        return redirect('/load_ava/{}'.format(int(user.id)))\r\n    return render_template('register.html', title='Registration', form=form)\r\n\r\n\r\n@app.route('/load_ava/<int:user_id>', methods=['GET', 'POST'])\r\ndef load_ava(user_id):\r\n    db_sess = db_session.create_session()\r\n    user = db_sess.query(User).filter((User.id == user_id)).first()\r\n    user_first = db_sess.query(User).filter(User.id == 1).first()\r\n    if request.method == 'POST':\r\n        photo = request.files['file']\r\n        if photo.filename != '':\r\n            photo.save('static/img/etot_parol_nikto_ne_uznaet{}.png'.format(user.id))\r\n            user.photo = convert_to_binary_data('static/img/etot_parol_nikto_ne_uznaet{}.png'.format(user.id))\r\n            db_sess.commit()\r\n        else:\r\n            photo = Image.open(io.BytesIO(user_first.photo))\r\n            photo.save('static/img/etot_parol_nikto_ne_uznaet{}.png'.format(user.id))\r\n            user.photo = convert_to_binary_data('static/img/etot_parol_nikto_ne_uznaet{}.png'.format(user.id))\r\n            db_sess.commit()\r\n        return redirect('/login')\r\n    return render_template('load_ava.html', title='Avatar')\r\n\r\n\r\n@app.route('/', methods=['GET', 'POST'])\r\n@app.route('/login', methods=['GET', 'POST'])\r\ndef login():\r\n    form = LoginForm()\r\n    if form.validate_on_submit():\r\n        db_sess = db_session.create_session()\r\n        user = db_sess.query(User).filter((User.email == form.login.data) | (User.nickname == form.login.data)).first()\r\n        if user:\r\n            if user.sing_in == 0:\r\n                user.sing_in = 1\r\n                os.remove('static/img/etot_parol_nikto_ne_uznaet{}.png'.format(user.id))\r\n            if user.check_password(form.password.data):\r\n                user.sing_in = 1\r\n                db_sess.commit()\r\n                login_user(user, remember=form.remember_me.data)\r\n                return redirect(\"/main_chat/{}\".format(user.id))\r\n            return render_template('login.html', message=\"Incorrect login or password\", form=form)\r\n        else:\r\n            return render_template('login.html', message=\"Такого пользователя не существует\", form=form)\r\n    return render_template('login.html', title='Authorization', form=form)\r\n\r\n\r\n@app.route('/logout')\r\n@login_required\r\ndef logout():\r\n    logout_user()\r\n    return redirect(\"/login\")\r\n\r\n\r\n@app.route('/ankets/<int:chat_id>/<int:user_id>', methods=['POST', 'GET'])\r\ndef ankets(chat_id, user_id):\r\n    db_sess = db_session.create_session()\r\n    user = db_sess.query(User).filter(User.id == user_id).first()\r\n    return render_template('ankets.html', title='Анкеты', photo=user.id, chat_id=chat_id)\r\n\r\n\r\n@app.route('/create_chat/<int:chat_id>/<int:user_id>', methods=['GET', 'POST'])\r\n@login_required\r\ndef create_chat(chat_id, user_id):\r\n    form = ChatForm()\r\n    db_sess = db_session.create_session()\r\n    user = db_sess.query(User).filter(User.id == user_id).first()\r\n    if form.validate_on_submit():\r\n        db_sess = db_session.create_session()\r\n        chat = Chats()\r\n        if len(form.title.data) >= 30:\r\n            return render_template(\"create_chat.html\", chat_id=chat_id, title=\"Создание чата\", photo=user.id, form=form,\r\n                                   message=\"Слишком длинное название чата\")\r\n        else:\r\n            chat.title = form.title.data\r\n        k = ''\r\n        if form.collaborators.data.split(' ')[0] != '':\r\n            if len(set(form.collaborators.data.split(' '))) == len(form.collaborators.data.split(' ')):\r\n                for i in set(form.collaborators.data.split(' ')):\r\n                    if db_sess.query(User).filter(User.nickname == i).first():\r\n                        if db_sess.query(User).filter(User.nickname == i).first().id != user.id:\r\n                            k += str(db_sess.query(User).filter(User.nickname == i).first().id) + ' '\r\n                        else:\r\n                            return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Создание чата\",\r\n                                                   photo=user.id,\r\n                                                   form=form,\r\n                                                   message=\"Создатель чата добавляется в чат автоматически\")\r\n                    else:\r\n                        if i == '':\r\n                            return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\",\r\n                                                   photo=user.id, form=form,\r\n                                                   message=\"Похоже, вы добавили лишний пробел\")\r\n                        else:\r\n                            return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\",\r\n                                                   photo=user.id, form=form,\r\n                                                   message=\"Пользователя с никнеймом {} не существует\".format(i))\r\n            else:\r\n                if form.collaborators.data.split(' ').count('') == 0:\r\n                    return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\",\r\n                                           photo=user.id, form=form,\r\n                                           message=\"Некоторые пользователи добавлены повторно\")\r\n                else:\r\n                    return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\",\r\n                                           photo=user.id, form=form,\r\n                                           message=\"Похоже, вы добавили лишний пробел\")\r\n        else:\r\n            if len(form.collaborators.data.split(' ')) > 1:\r\n                return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\",\r\n                                       photo=user.id, form=form,\r\n                                       message=\"Похоже, вы добавили лишний пробел\")\r\n        k = str(user.id) + ' ' + k[:-1]\r\n        if k[-1] == ' ':\r\n            k = k[:-1]\r\n        chat.collaborators = k\r\n        db_sess.add(chat)\r\n        db_sess.commit()\r\n        return redirect(\"/chat/{}/{}\".format(chat.id, user.id))\r\n    return render_template(\"create_chat.html\", form=form, photo=user.id, chat_id=chat_id, title=\"Создание чата\")\r\n\r\n\r\n@app.route('/edit_chat/<int:chat_id>/<int:user_id>', methods=['GET', 'POST'])\r\n@login_required\r\ndef edit_chat(chat_id, user_id):\r\n    form = EditChatForm()\r\n    db_sess = db_session.create_session()\r\n    user = db_sess.query(User).filter(User.id == user_id).first()\r\n    chat = db_sess.query(Chats).filter(Chats.id == chat_id).first()\r\n    if request.method == \"GET\":\r\n        form.title.data = chat.title\r\n        k = ''\r\n        if chat.collaborators.split(' ')[0] != '':\r\n            for i in chat.collaborators.split(' '):\r\n                if int(i) != current_user.id:\r\n                    k += str(db_sess.query(User).filter(User.id == i).first().nickname) + ' '\r\n            if k != '' and k[-1] == ' ':\r\n                k = k[:-1]\r\n        form.collaborators.data = k\r\n        if chat:\r\n            if len(form.title.data) >= 30:\r\n                return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\", photo=user.id,\r\n                                       form=form,\r\n                                       message=\"Слишком длинное название чата\")\r\n            else:\r\n                chat.title = form.title.data\r\n            k = ''\r\n            if form.collaborators.data.split(' ')[0] != '':\r\n                for i in form.collaborators.data.split(' '):\r\n                    if db_sess.query(User).filter(User.nickname == i).first():\r\n                        if db_sess.query(User).filter(User.nickname == i).first().id != user.id:\r\n                            k += str(db_sess.query(User).filter(User.nickname == i).first().id) + ' '\r\n                        else:\r\n                            return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Создание чата\",\r\n                                                   photo=user.id,\r\n                                                   form=form,\r\n                                                   message=\"Создатель чата добавляется в чат автоматически\")\r\n                    else:\r\n                        if i == '':\r\n                            return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\",\r\n                                                   photo=user.id, form=form,\r\n                                                   message=\"Похоже, вы добавили лишний пробел\")\r\n                        else:\r\n                            return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\",\r\n                                                   photo=user.id, form=form,\r\n                                                   message=\"Пользователя с никнеймом {} не существует\".format(i))\r\n            k = str(user.id) + ' ' + k[:-1]\r\n            if k[-1] == ' ':\r\n                k = k[:-1]\r\n            chat.collaborators = k\r\n        else:\r\n            abort(404)\r\n    if form.validate_on_submit():\r\n        if chat:\r\n            if len(form.title.data) >= 30:\r\n                return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\", photo=user.id,\r\n                                       form=form,\r\n                                       message=\"Слишком длинное название чата\")\r\n            else:\r\n                chat.title = form.title.data\r\n            k = ''\r\n            if form.collaborators.data.split(' ')[0] != '':\r\n                if len(set(form.collaborators.data.split(' '))) == len(form.collaborators.data.split(' ')):\r\n                    for i in set(form.collaborators.data.split(' ')):\r\n                        if db_sess.query(User).filter(User.nickname == i).first():\r\n                            if db_sess.query(User).filter(User.nickname == i).first().id != user.id:\r\n                                k += str(db_sess.query(User).filter(User.nickname == i).first().id) + ' '\r\n                            else:\r\n                                return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Создание чата\",\r\n                                                       photo=user.id,\r\n                                                       form=form,\r\n                                                       message=\"Создатель чата добавляется в чат автоматически\")\r\n                        else:\r\n                            if i == '':\r\n                                return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\",\r\n                                                       photo=user.id, form=form,\r\n                                                       message=\"Похоже, вы добавили лишний пробел\")\r\n                            else:\r\n                                return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\",\r\n                                                       photo=user.id, form=form,\r\n                                                       message=\"Пользователя с никнеймом {} не существует\".format(i))\r\n                else:\r\n                    if form.collaborators.data.split(' ').count('') == 0:\r\n                        return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\",\r\n                                               photo=user.id, form=form,\r\n                                               message=\"Некоторые пользователи добавлены повторно\")\r\n                    else:\r\n                        return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\",\r\n                                               photo=user.id, form=form,\r\n                                               message=\"Похоже, вы добавили лишний пробел\")\r\n            else:\r\n                return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Редактирование чата\",\r\n                                       photo=user.id, form=form,\r\n                                       message=\"Похоже, вы добавили лишний пробел\")\r\n            k = str(user.id) + ' ' + k[:-1]\r\n            if k[-1] == ' ':\r\n                k = k[:-1]\r\n            chat.collaborators = k\r\n            db_sess.commit()\r\n            return redirect(\"/chat/{}/{}\".format(chat.id, user.id))\r\n        else:\r\n            abort(404)\r\n    return render_template(\"edit_chat.html\", chat_id=chat_id, title=\"Создание чата\", photo=user.id, form=form)\r\n\r\n\r\n@app.route('/yes_no_chat/<int:chat_id>/<int:user_id>', methods=['GET', 'POST'])\r\ndef yes_no_chat(chat_id, user_id):\r\n    db_sess = db_session.create_session()\r\n    user = db_sess.query(User).filter(User.id == user_id).first()\r\n    return render_template(\"yes_no_chat.html\", photo=user.id, chat_id=chat_id, title=\"Подтверждение удаления чата\")\r\n\r\n\r\n@app.route('/yes-del/<int:chat_id>/<int:user_id>', methods=['GET', 'POST'])\r\ndef yes_del(chat_id, user_id):\r\n    db_sess = db_session.create_session()\r\n    user = db_sess.query(User).filter(User.id == user_id).first()\r\n    chat = db_sess.query(Chats).filter(Chats.id == chat_id).first()\r\n    if chat:\r\n        db_sess.delete(chat)\r\n        db_sess.commit()\r\n    else:\r\n        abort(404)\r\n    return redirect(\"/main_chat/{}\".format(user.id))\r\n\r\n\r\n@app.route('/yes_no_exit/<int:chat_id>/<int:user_id>', methods=['GET', 'POST'])\r\ndef yes_no_exit(chat_id, user_id):\r\n    db_sess = db_session.create_session()\r\n    user = db_sess.query(User).filter(User.id == user_id).first()\r\n    return render_template(\"yes_no_exit.html\", photo=user.id, chat_id=chat_id, title=\"Подтверждение выхода из чата\")\r\n\r\n\r\n@app.route('/yes-exit/<int:chat_id>/<int:user_id>', methods=['GET', 'POST'])\r\ndef yes_exit(chat_id, user_id):\r\n    db_sess = db_session.create_session()\r\n    user = db_sess.query(User).filter(User.id == user_id).first()\r\n    chat = db_sess.query(Chats).filter(Chats.id == chat_id).first()\r\n    if chat:\r\n        k = ''\r\n        for i in chat.collaborators.split(' '):\r\n            if int(i) != current_user.id:\r\n                k = k + i + ' '\r\n        k = k[:-1]\r\n        chat.collaborators = k\r\n        db_sess.commit()\r\n    else:\r\n        abort(404)\r\n    return redirect(\"/main_chat/{}\".format(user.id))\r\n\r\n\r\nif __name__ == '__main__':\r\n    db_session.global_init(\"db/students_chat.db\")\r\n    app.run(port=8080, host='127.0.0.1')\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+--- a/main.py	
++++ b/main.py	
+@@ -262,7 +262,7 @@
+         if chat.collaborators.split(' ')[0] != '':
+             for i in chat.collaborators.split(' '):
+                 if int(i) != current_user.id:
+-                    k += str(db_sess.query(User).filter(User.id == i).first().nickname) + ' '
++                    k += str(db_sess.query(User).filter(User.id == int(i)).first().nickname) + ' '
+             if k != '' and k[-1] == ' ':
+                 k = k[:-1]
+         form.collaborators.data = k
+Index: forms/edit_chat_from.py
+===================================================================
+diff --git a/forms/edit_chat_from.py b/forms/edit_chat_from.py
+new file mode 100644
+--- /dev/null	
++++ b/forms/edit_chat_from.py	
+@@ -0,0 +1,11 @@
++from flask_wtf import FlaskForm
++from wtforms import PasswordField, BooleanField, SubmitField, EmailField, StringField, TextAreaField, IntegerField, \
++    FileField
++from wtforms.validators import DataRequired
++
++
++class EditChatForm(FlaskForm):
++    title = StringField('Название чата', validators=[DataRequired()])
++    collaborators = StringField('Удалите или добавьте никнеймы пользователей '
++                                '(при удалении пользователя из чата не забывайте удалять лишние пробелы)')
++    submit = SubmitField('Изменить')
+Index: templates/chat.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends \"hat.html\" %}\r\n\r\n{% block content %}\r\n<div>\r\n     <h2>Чат</h2>\r\n     <form action=\"\" method=\"post\">\r\n    {{ form.hidden_tag() }}\r\n    <div class=\"bord\">\r\n    {% for item in messages%}\r\n    {% if current_user.id == item.user_id %}\r\n    <div id=\"all_mes\" class=\"alm-right\">{{item.text}}<br></div>\r\n    {% else %}\r\n    <div id=\"all_mes\" class=\"alm-left\">{{item.text}}<br></div>\r\n    {% endif %}\r\n    {% endfor %}\r\n    </div>\r\n    <div class=\"mess\">\r\n        <form id=\"messForm\">\r\n            <h5>Сообщение</h5>\r\n            <p>{{form.message(class=\"form-control\") }}</p>\r\n            <br>\r\n            <p>{{ form.submit(type=\"submit\", class=\"btn btn-danger\") }}</p>\r\n        </form>\r\n    </div>\r\n    \r\n</form>\r\n</div>\r\n{% endblock %}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/chat.html b/templates/chat.html
+--- a/templates/chat.html	
++++ b/templates/chat.html	
+@@ -1,28 +1,51 @@
+ {% extends "hat.html" %}
+ 
+ {% block content %}
+-<div>
+-     <h2>Чат</h2>
+-     <form action="" method="post">
+-    {{ form.hidden_tag() }}
+-    <div class="bord">
+-    {% for item in messages%}
+-    {% if current_user.id == item.user_id %}
+-    <div id="all_mes" class="alm-right">{{item.text}}<br></div>
+-    {% else %}
+-    <div id="all_mes" class="alm-left">{{item.text}}<br></div>
+-    {% endif %}
+-    {% endfor %}
+-    </div>
+-    <div class="mess">
+-        <form id="messForm">
+-            <h5>Сообщение</h5>
+-            <p>{{form.message(class="form-control") }}</p>
+-            <br>
+-            <p>{{ form.submit(type="submit", class="btn btn-danger") }}</p>
+-        </form>
+-    </div>
+-    
+-</form>
++<h2 class="t_chat">{{title}}</h2>
++<div class="chat_room">
++    {% for item in user_chats%}
++        {% if chat_id == item.id %}
++            <a class = "chat-now" href="/chat/{{item.id}}/{{current_user.id}}">{{item.title}}</a><br>
++        {% else %}
++            <a class = "chat" href="/chat/{{item.id}}/{{current_user.id}}">{{item.title}}</a><br>
++        {% endif %}
++    {% endfor %}
++</div>
++<div class="chat_room">
++    <form class="chat_room_frm" action="" method="post">
++            {{ form.hidden_tag() }}
++            <div class="bord">
++                {% for item in messages%}
++                    {% if current_user.id == item.user_id %}
++                        <div id="all_mes" class="alm-right">{{item.text}}<br></div>
++                    {% else %}
++                        <div id="all_mes" class="alm-left">{{item.text}}<br></div>
++                    {% endif %}
++                {% endfor %}
++            </div>
++            <div class="mess">
++                <form id="messForm">
++                    <h5>Сообщение</h5>
++                    <p>{{form.message(class="form-control") }}</p>
++                    <br>
++                    <p>{{ form.submit(type="submit", class="btn btn-danger") }}</p>
++                </form>
++            </div>
++        </form>
++        </p>
++    </div>  
++<div class="chat_room">
++    <a class = "new-chat" href="/create_chat/{{chat_id}}/{{current_user.id}}">Создать новый чат +</a><br>
++    <a class = "bton-ch-yes" href="/chat/{{chat_id}}/{{current_user.id}}">Чаты</a><br>
++    <a class = "bton-ak-no" href="/ankets/{{chat_id}}/{{current_user.id}}">Анкеты</a><br>
++    {% if chat_id != 1 %}
++        {% if (author != current_user.id) %}
++            <a class = "exit-chat-solo" href="/yes_no_exit/{{chat_id}}/{{current_user.id}}">Выйти из чата</a><br>
++        {% else %}
++            <a class = "edit-chat" href="/edit_chat/{{chat_id}}/{{current_user.id}}">Редактировать чат</a><br>
++            <a class = "exit-chat" href="/yes_no_exit/{{chat_id}}/{{current_user.id}}">Выйти из чата</a><br>
++            <a class = "del-chat" href="/yes_no_chat/{{chat_id}}/{{current_user.id}}">Удалить чат</a><br>
++        {% endif %}
++    {% endif %}
+ </div>
+-{% endblock %}
+\ No newline at end of file
++{% endblock %}  
+\ No newline at end of file
