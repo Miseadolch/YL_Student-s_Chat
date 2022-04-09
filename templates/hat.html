@@ -22,11 +22,16 @@
       <div class="content_block">
         <div class="header_inner">
           <div class="header_logo">
+            {% if (current_user.is_authenticated) and (current_user.sing_in == 1) %}
+            <h1><a class="prof_away" href="/main_chat/{{current_user.id}}">YL Student's Chat</a></h1>
+            {% else %}
             <h1>YL Student's Chat</h1>
+            {% endif %}
           </div>
           {% if (current_user.is_authenticated) and (current_user.sing_in == 1) %}
           <nav class="nav">
-            <a class="nav_link" href="/logout">{{ current_user.nickname }}</a>
+            <a class="nav_link_zad" href="#">Задать вопрос</a>
+            <a class="nav_link" href="/profile/{{chat_id}}/{{current_user.id}}">{{ current_user.nickname }}</a>
             <img class="nav_link" width="50px" height="50px" src=/static/img/photo_for_ava_for_user{{photo}}.png class="avatar" alt=""/>
           </nav>
           {% else %}

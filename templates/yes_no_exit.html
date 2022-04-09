@@ -1,6 +1,7 @@
 {% extends "hat.html" %}
 
 {% block content %}
+<br>
 <h2>Вы действительно хотите выйти из чата?</h2>
 <a class = "ex-yes" href="/yes-exit/{{chat_id}}/{{current_user.id}}">Выйти из чата</a><br>
 <a class = "del-no" href="/chat/{{chat_id}}/{{current_user.id}}">Отмена</a>
