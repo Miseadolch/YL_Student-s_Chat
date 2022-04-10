@@ -1,0 +1,26 @@
+{% extends "hat.html" %}
+
+{% block content %}
+<br>
+<h2>Вы действительно хотите удалить аккаунт?</h2><br>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    {%if message %} 
+        <p class="alert alert-danger" role="alert">
+            {{message}}
+        </p>
+    {%endif%}
+    <p class="login_pole">
+        {{ form.password.label }}<br>
+        {{ form.password(class="form-control", type="password") }}<br>
+        {% for error in form.password.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+    </p>
+    <p>{{ form.submit(type="submit", class="del-yes-akount") }}</p>
+</form>
+<a class = "del-no" href="/profile/{{chat_id}}/{{current_user.id}}">Отмена</a>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "hat.html" %}
+
+{% block content %}
+<div class="chat_room"><a class = "nazad" href="/chat/{{chat_id}}/{{current_user.id}}">← Назад</a></div>
+<h2 class="prof_t">{{title}}</h2>
+<div class="prof_box">
+    <img class = "prof_ava" width="95px" height="95px" src=/static/img/photo_for_ava_for_user{{photo}}.png alt=""/><br>
+    <a class = "prof_nick">{{ current_user.nickname }}</a><br>
+    <a class = "prof_group">Группа:{{current_user.group.split('/')[1]}} Курс:{{current_user.group.split('/')[3]}}</a><br>
+    <a class = "smen_ava" href="/change_ava/{{chat_id}}/{{current_user.id}}">Сменить аватарку</a><br>
+    <a class = "smen_ava" href="/change_nick/{{chat_id}}/{{current_user.id}}">Сменить никнейм</a><br>
+    <a class = "smen_ava" href="/change_group/{{chat_id}}/{{current_user.id}}">Сменить группу обучения</a><br>
+    <a class = "smen_ava" href="/change_ankets/{{chat_id}}/{{current_user.id}}">Управление анкетами</a><br>
+    <a class = "smen_ava" href="/begin_change_password/{{chat_id}}/{{current_user.id}}">Сменить пароль</a><br><br>
+    <a class = "vihod_ak" href="/yes_no_ex_ak/{{chat_id}}/{{current_user.id}}">Выйти из аккаунта</a><br>
+    <a class = "del_ak" href="/yes_no_akount/{{chat_id}}/{{current_user.id}}">Удалить аккаунт</a><br>
+</div>
+{% endblock %}  
