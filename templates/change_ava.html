@@ -1,0 +1,56 @@
+{% extends "hat.html" %}
+
+{% block content %}
+<h1 allign="center">Загрузите аватарку</h1>
+    <form class="ava_form" method="post" enctype="multipart/form-data">
+        <div class="photo">
+            <label class="avatar-field">
+                <input type="file" id="avatar" name="file" accept="image/jpeg,image/png">
+                <img loading="lazy" src="/static/img/load_ava.png" width="100" height="100" id="preview"/>
+            </label>
+            <a>
+                <button>Продолжить</button>
+            </a>
+        </div>
+    </form>
+<a class = "change-no-ava" href="/profile/{{chat_id}}/{{current_user.id}}">Отмена</a>
+<script>
+function updateImage(){
+    if (this.files && this.files.length){
+        preview.src = window.URL.createObjectURL(this.files[0]);
+    }else{
+        preview.src = "static/img/etot_parol_nikto_ne_uznaet.png";
+    }
+}
+
+function highlightDropZone(event){
+    event.preventDefault();
+    this.classList.add('drop');
+}
+
+function unHighlightDropZone(event){
+    event.preventDefault();
+    this.classList.remove('drop');
+}
+
+
+const input = document.getElementById('avatar');
+const preview = document.getElementById('preview');
+const dropFiles = document.getElementsByClassName('body');
+
+if (dropFiles && dropFiles.length){
+    const dropField = dropFiles[0];
+    dropField.addEventListener('dragover', highlightDropZone);
+    dropField.addEventListener('dragenter', highlightDropZone);
+    dropField.addEventListener('dragleave', unHighlightDropZone);
+    dropField.addEventListener('drop', (event) => {
+        const dt = event.dataTransfer;
+        unHighlightDropZone.call(dropField, event)
+        updateImage.call(dt);
+    });
+}
+
+input.addEventListener('change', updateImage);
+
+</script>
+{% endblock %}

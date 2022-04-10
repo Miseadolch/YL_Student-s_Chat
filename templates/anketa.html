@@ -1,0 +1,15 @@
+{% extends "hat.html" %}
+
+{% block content %}
+<h2 class="prof_t">Анкета</h2>
+<a class = "ankt_theme">Тема: {{anketa.theme}}</a><br><br>
+<a class = "ankt_nick">Автор: {{author}}</a><br>
+<img class = "ankt_ava" width="95px" height="95px" src=/static/img/photo_for_ava_for_user{{photo_ankt}}.png alt=""/><br>
+<a class = "prof_group">Группа:{{current_user.group.split('/')[1]}} Курс:{{current_user.group.split('/')[3]}}</a><br><br>
+<h2 class="prof_t">Описание</h2><br>
+<p class="opis_ankt">{{anketa.opis}}</p><br>
+{% if anketa.author != current_user.id %}
+<a class = "ankt_otkl" href="/auto_create_chat/{{anketa.author}}/{{current_user.id}}">Откликнуться на анкету</a><br>
+{% endif %}
+<a class = "ankt_otkl_no" href="#" onclick="javascript:history.back();">Отмена</a>
+{% endblock %}

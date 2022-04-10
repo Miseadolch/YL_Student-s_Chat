@@ -46,6 +46,24 @@ body {
     align-items: center;
 }
 
+.nav_link_zad{
+    padding-top: 1px;
+    margin-right: 30px;
+    font-size: 16px;
+    color: #000000;
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity .1s linear;
+}
+
+.nav_link_zad:hover{
+    padding-top: 1px;
+    color: #000000;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
 .nav_link {
     margin-left: 10px;
     color: #000000;
@@ -64,7 +82,6 @@ body {
 }
 
 .nav_link:hover {
-    opacity: 0.75;
     color: #000000;
     text-decoration: none;
 }
@@ -349,6 +366,11 @@ h2{
     float:left;
 }
 
+.chat_room_ankts{
+    margin-bottom: 40px;
+    float:left;
+}
+
 .chat-now{
     position: relative;
     text-decoration: none;
@@ -502,7 +524,7 @@ h2{
     color: black;
     background-color: #E8A87C;
     border: black solid 2px;
-    padding: 14px 40px;
+    padding: 14px;
     border-radius: 4px;
     font-weight: 600;
     transition: opacity .1s linear;
@@ -580,7 +602,7 @@ h2{
 .del-no{
     position: relative;
     text-decoration: none;
-    margin-top: 18px;
+    margin-top: 28px;
     width: 160px;
     display: inline-block;
     vertical-align: top;
@@ -749,5 +771,832 @@ h2{
     background-color: #FBE8A6;
     text-decoration: none;
     opacity: 1;
+    border: black solid 2px;
+    transition: opacity .1s linear;
+}
+
+.prof_t{
+    font-weight: 600;
+    font-size: 23px;
+}
+
+.prof_ava{
+    margin-right: 120px;
+    margin-top: 15px;
+    margin-bottom: 12px;
+    position: relative;
+    border-radius: 50px;
+    border: 2px solid black;
+    color: #000000;
+}
+
+.prof_box{
+    align-items: center;
+}
+
+.prof_nick{
+    margin-left: 30px;
+    font-weight: 725;
+    font-size: 30px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.prof_group{
+    margin-left: 30px;
+    font-weight: 625;
+    font-size: 16px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.smen_ava{
+    position: relative;
+    text-decoration: none;
+    margin-top: 40px;
+    margin-left: 30px;
+    width: 300px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 16px;
+    padding: 12px;
+    color: black;
+    background-color: white;
+    border: black solid 1px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.smen_ava:hover{
+    margin-top: 38px;
+    color: black;
+    border: black solid 2px;
+    background-color: #FBE8A6;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.del_ak{
+    position: relative;
+    text-decoration: none;
+    margin-top: 30px;
+    margin-left: 30px;
+    width: 300px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 16px;
+    padding: 12px;
+    color: black;
+    background-color: white;
+    border: black solid 1px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.del_ak:hover{
+    color: black;
+    margin-top: 28px;
+    background-color: #FC4445;
+    text-decoration: none;
+    border: black solid 2px;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.del-yes-akount{
+    position: relative;
+    text-decoration: none;
+    margin-top: 58px;
+    width: 250px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: #E85A4F;
+    border: black solid 2px;
+    padding: 13px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.del-yes-akount:hover{
+    border: black solid 2px;
+    background-color: #E98074;
+    color: black;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity .1s linear;
+}
+
+.prof_away{
+    color: #000000;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;   
+}
+
+.prof_away:hover{
+    color: #000000;
+    text-decoration: none;
+    transition: opacity .1s linear;   
+}
+
+.vihod_ak{
+    position: relative;
+    text-decoration: none;
+    margin-top: 80px;
+    margin-left: 30px;
+    width: 300px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 16px;
+    padding: 12px;
+    color: black;
+    background-color: white;
+    border: black solid 1px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.vihod_ak:hover{
+    margin-top: 78px;
+    color: black;
+    border: black solid 2px;
+    background-color: #FFB48F;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.yes-ex-ak{
+    position: relative;
+    text-decoration: none;
+    margin-top: 58px;
+    width: 280px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: #E98074;
+    border: black solid 2px;
+    padding: 13px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.yes-ex-ak:hover{
+    border: black solid 2px;
+    background-color: #FFB48F;
+    color: black;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity .1s linear;
+}
+
+.change-no-ava{
+    position: relative;
+    text-decoration: none;
+    margin-top: 50px;
+    margin-left: 20px;
+    width: 150px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 15px;
+    color: black;
+    background-color: #FBEEC1;
+    border: black solid 1px;
+    padding: 11px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.change-no-ava:hover{
+    border: black solid 2px;
+    background-color: #EFE2BA;
+    color: black;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity .1s linear;
+}
+
+.change-no-nick{
+    position: relative;
+    text-decoration: none;
+    margin-top: 30px;
+    width: 150px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 15px;
+    color: black;
+    background-color: #FBEEC1;
+    border: black solid 1px;
+    padding: 11px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.change-no-nick:hover{
+    border: black solid 2px;
+    background-color: #EFE2BA;
+    color: black;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity .1s linear;
+}
+
+.btn-vvesti-reg{
+    position: relative;
+    text-decoration: none;
+    width: 220px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: #E8A87C;
+    border: black solid 2px;
+    padding: 14px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.btn-vvesti-reg:hover{
+    border: black solid 2px;
+    background-color: #E27D60;
+    color: black;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity .1s linear;
+}
+
+.ankt-red{
+    position: relative;
+    text-decoration: none;
+    margin-top: 20px;
+    margin-right: 30px;
+    margin-left: 150px;
+    height: 350px;
+    width: 430px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: #FBE8A6;
+    border: black solid 2px;
+    padding: 14px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.ankt-red-second{
+    position: relative;
+    text-decoration: none;
+    margin-top: 20px;
+    margin-right: 30px;
+    margin-left: 10px;
+    height: 350px;
+    width: 430px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: #FBE8A6;
+    border: black solid 2px;
+    padding: 14px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.edit-ankt-first{
+    position: relative;
+    text-decoration: none;
+    margin-top: 20px;
+    margin-left: 120px;
+    width: 400px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 13px;
+    padding: 10px;
+    color: black;
+    background-color: white;
+    border: black solid 1px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.edit-ankt-second{
+    position: relative;
+    text-decoration: none;
+    margin-top: 20px;
+    margin-right: 20px;
+    width: 400px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 13px;
+    padding: 10px;
+    color: black;
+    background-color: white;
+    border: black solid 1px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.edit-ankt-first:hover{
+    margin-top: 18px;
+    border: black solid 2px;
+    background-color: #AFD275;
+    color: black;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.edit-ankt-second:hover{
+    margin-top: 18px;
+    border: black solid 2px;
+    background-color: #AFD275;
+    color: black;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.del-ankt-first{
+    position: relative;
+    text-decoration: none;
+    margin-top: 12px;
+    margin-left: 120px;
+    width: 400px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 13px;
+    padding: 10px;
+    color: black;
+    background-color: white;
+    border: black solid 1px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.del-ankt-first:hover{
+    border: black solid 2px;
+    margin-top: 10px;
+    background-color: #FC4445;
+    color: black;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.del-ankt-second{
+    position: relative;
+    text-decoration: none;
+    margin-top: 12px;
+    margin-right: 20px;
+    width: 400px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 13px;
+    padding: 10px;
+    color: black;
+    background-color: white;
+    border: black solid 1px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.del-ankt-second:hover{
+    border: black solid 2px;
+    margin-top: 10px;
+    background-color: #FC4445;
+    color: black;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.ankt-no-red{
+    position: relative;
+    text-decoration: none;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    margin-left: 20px;
+    width: 160px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: #AFD275;
+    border: black solid 2px;
+    padding: 9px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.ankt-no-red:hover{
+    border: black solid 2px;
+    background-color: #97c44f;
+    color: black;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity .1s linear;
+}
+
+.del-yes-ankt{
+    position: relative;
+    text-decoration: none;
+    margin-top: 48px;
+    width: 230px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: #E85A4F;
+    border: black solid 2px;
+    padding: 11px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.del-yes-ankt:hover{
+    border: black solid 2px;
+    background-color: #E98074;
+    color: black;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity .1s linear;
+}
+
+.ankt-no-red-one{
+    position: relative;
+    text-decoration: none;
+    margin-top: 500px;
+    margin-bottom: 60px;
+    margin-right: 400px;
+    width: 160px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: #AFD275;
+    border: black solid 2px;
+    padding: 9px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.ankt-no-red-one:hover{
+    border: black solid 2px;
+    background-color: #97c44f;
+    color: black;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity .1s linear;
+}
+
+.btn-vvesti-edit-anket{
+    position: relative;
+    text-decoration: none;
+    margin-top: 20px;
+    width: 230px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: #E8A87C;
+    border: black solid 2px;
+    padding: 14px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.btn-vvesti-edit-anket:hover{
+    border: black solid 2px;
+    background-color: #E27D60;
+    color: black;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity .1s linear;
+}
+
+.nazad{
+    position: relative;
+    text-decoration: none;
+    width: 140px;
+    margin-left: 10px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 13px;
+    padding: 10px;
+    color: black;
+    background-color: white;
+    border: black solid 1px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.nazad:hover{
+    margin-top: -2px;
+    color: black;
+    border: black solid 2px;
+    background-color: #FBE8A6;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.new-anket-sol{
+    position: relative;
+    text-decoration: none;
+    margin-top: 20px;
+    margin-left: 960px;
+    width: 200px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 13px;
+    padding: 10px;
+    color: black;
+    background-color: white;
+    border: black solid 1px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.new-anket-sol:hover{
+    margin-top: 18px;
+    border: black solid 2px;
+    background-color: #5CDB95;
+    color: black;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.bton-ch-no-sol{
+    position: relative;
+    text-decoration: none;
+    margin-top: 130px;
+    margin-left: 960px;
+    width: 200px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: white;
+    border: black solid 1px;
+    padding: 14px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    opacity: 0.7;
+    transition: opacity .1s linear;
+}
+
+.bton-ch-no-sol:hover{
+    margin-top: 128px;
+    border: black solid 2px;
+    background-color: #EDF5E1;
+    color: black;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.bton-ak-yes-sol{
+    position: relative;
+    text-decoration: none;
+    margin-top: 20px;
+    margin-left: 960px;
+    width: 200px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: #FBE8A6;
+    border: black solid 2px;
+    padding: 14px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.bton-ak-yes-sol:hover{
+    color: black;
+    background-color: #FBE8A6;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.new-anket-solo{
+    position: relative;
+    text-decoration: none;
+    margin-top: -350px;
+    margin-left: 960px;
+    width: 200px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 13px;
+    padding: 10px;
+    color: black;
+    background-color: white;
+    border: black solid 1px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.new-anket-solo:hover{
+    margin-top: -352px;
+    border: black solid 2px;
+    background-color: #5CDB95;
+    color: black;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.bton-ch-no-solo{
+    position: relative;
+    text-decoration: none;
+    margin-top: -200px;
+    margin-left: 960px;
+    width: 200px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: white;
+    border: black solid 1px;
+    padding: 14px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    opacity: 0.7;
+    transition: opacity .1s linear;
+}
+
+.bton-ch-no-solo:hover{
+    margin-top: -202px;
+    border: black solid 2px;
+    background-color: #EDF5E1;
+    color: black;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.bton-ak-yes-solo{
+    position: relative;
+    text-decoration: none;
+    margin-top: -146px;
+    margin-left: 960px;
+    width: 200px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    color: black;
+    background-color: #FBE8A6;
+    border: black solid 2px;
+    padding: 14px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.bton-ak-yes-solo:hover{
+    color: black;
+    background-color: #FBE8A6;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.ankt_ava{
+    margin-left: 30px;
+    margin-top: 15px;
+    margin-bottom: 12px;
+    position: relative;
+    border-radius: 50px;
+    border: 2px solid black;
+    color: #000000;
+}
+
+.opis_ankt{
+    border: 1px solid black;
+    width: 1140px;
+    height: 300px;
+    margin-left: 20px;
+    text-align: left;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.ankt_nick{
+    margin-top: 100px;
+    margin-left: 30px;
+    font-weight: 725;
+    font-size: 20px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.ankt_theme{
+    margin-left: 30px;
+    font-weight: 725;
+    font-size: 25px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.ankt_otkl{
+    position: relative;
+    text-decoration: none;
+    margin-top: 40px;
+    margin-left: 30px;
+    width: 300px;
+    align-items: center;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 16px;
+    padding: 12px;
+    color: black;
+    background-color: #AFD275;
+    border: black solid 1px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.ankt_otkl:hover{
+    margin-top: 38px;
+    color: black;
+    border: black solid 2px;
+    background-color: #97c44f;
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+
+.ankt_otkl_no{
+    position: relative;
+    text-decoration: none;
+    margin-top: 30px;
+    width: 150px;
+    margin-left: 30px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 15px;
+    color: black;
+    background-color: #FBEEC1;
+    border: black solid 1px;
+    padding: 11px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: opacity .1s linear;
+}
+
+.ankt_otkl_no:hover{
+    margin-top: 28px;
+    border: black solid 2px;
+    background-color: #EFE2BA;
+    color: black;
+    text-decoration: none;
+    opacity: 0.9;
     transition: opacity .1s linear;
 }

@@ -1,0 +1,34 @@
+{% extends "hat.html" %}
+
+{% block content %}
+<h2>Управление анкетами</h2>
+<div class="chat_room">
+    <div class="chat_room">
+        {% for item in ankets_first%}
+            <a class = "ankt-red">
+                Автор: {{current_user.nickname}}<br><br>
+                Тема: {{item.theme}}<br><br>
+                Группа:{{current_user.group.split('/')[1]}} Курс:{{current_user.group.split('/')[3]}}<br><br>
+            </a><br>
+            <a class = "edit-ankt-first" href="/edit_ankt/{{item.id}}/{{chat_id}}/{{current_user.id}}">Редактировать анкету</a><br>
+            <a class = "del-ankt-first" href="/yes_no_del_ankt/{{item.id}}/{{chat_id}}/{{current_user.id}}">Удалить анкету</a><br>
+        {% endfor %}
+    </div>
+    <div class="chat_room">
+        {% for item in ankets_second%}
+            <a class = "ankt-red-second">
+                Автор: {{current_user.nickname}}<br><br>
+                Тема: {{item.theme}}<br><br>
+                Группа:{{current_user.group.split('/')[1]}} Курс:{{current_user.group.split('/')[3]}}<br><br>
+            </a><br>
+            <a class = "edit-ankt-second" href="/edit_ankt/{{item.id}}/{{chat_id}}/{{current_user.id}}">Редактировать анкету</a><br>
+            <a class = "del-ankt-second" href="/yes_no_del_ankt/{{item.id}}/{{chat_id}}/{{current_user.id}}">Удалить анкету</a><br>
+        {% endfor %}
+    </div>
+</div><br>
+{% if lenankt == 1 %}
+<a class = "ankt-no-red-one" href="/profile/{{chat_id}}/{{current_user.id}}">Отмена</a>
+{% else %}
+<a class = "ankt-no-red" href="/profile/{{chat_id}}/{{current_user.id}}">Отмена</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "hat.html" %}
+
+{% block content %}
+<h1>Редактирование анкеты</h1>
+<form action="" method="post" class="frm-cr-ch">
+    {{ form.hidden_tag() }}
+    {%if message %} 
+    <p class="alert alert-danger" role="alert">
+       {{message}}
+    </p>
+    {%endif%}
+    <p>
+        {{ form.theme.label }}<br>
+        {{ form.theme(class="form-control") }}<br>
+        {% for error in form.theme.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p class="p-cr-ankt">
+        {{ form.opis.label }}<br>
+        {{ form.opis(class="form-control") }}<br>
+        {% for error in form.opis.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>{{ form.submit(type="submit", class="btn-vvesti-edit-anket") }}</p>
+    <a class = "btn-vvesti-otmn" href="#" onclick="javascript:history.back();">Отмена</a>
+</form>
+{% endblock %}

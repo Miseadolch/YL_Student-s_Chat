@@ -3,26 +3,38 @@
 {% block content %}
 <h2>Анкеты</h2>
 <div class="chat_room">
-    {% for item in ankets_first%}
-        <a class = "ankt" href="/anketa/{{item.id}}/{{current_user.id}}">
-            {{item.author}}
-            {{item.theme}}
-            {{item.group}}
-        </a>
-    {% endfor %}
+    <div class="chat_room_ankts">
+        {% for item in ankets_first%}
+            <a class = "ankt" href="/anketa/{{item[1].id}}/{{chat_id}}/{{current_user.id}}">
+                Автор: {{item[0]}}<br><br>
+                Тема: {{item[1].theme}}<br><br>
+                Группа:{{item[1].group.split('/')[1]}} Курс:{{item[1].group.split('/')[3]}}<br><br>
+            </a><br>
+        {% endfor %}
+    </div>
+    <div class="chat_room_ankts">
+        {% for item in ankets_second%}
+            <a class = "ankt" href="/anketa/{{item[1].id}}/{{chat_id}}/{{current_user.id}}">
+                Автор: {{item[0]}}<br><br>
+                Тема: {{item[1].theme}}<br><br>
+                Группа:{{item[1].group.split('/')[1]}} Курс:{{item[1].group.split('/')[3]}}<br><br>
+            </a><br>
+        {% endfor %}
+    </div>
 </div>
 <div class="chat_room">
-    {% for item in ankets_second%}
-        <a class = "ankt" href="/anketa/{{item.id}}/{{current_user.id}}">
-            {{item.author}}
-            {{item.theme}}
-            {{item.group}}
-        </a>
-    {% endfor %}
-</div>
-<div class="chat_room">
-    <a class = "new-anket" href="/create-anket/{{chat_id}}/{{current_user.id}}">Создать новую анкету +</a><br>
-    <a class = "bton-ch-no" href="/chat/{{chat_id}}/{{current_user.id}}">Чаты</a><br>
-    <a class = "bton-ak-yes" href="/ankets/{{current_user.id}}">Анкеты</a>
+    {% if lenankt > 1 %}
+        <a class = "new-anket" href="/create-anket/{{chat_id}}/{{current_user.id}}">Создать новую анкету +</a><br>
+        <a class = "bton-ch-no" href="/chat/{{chat_id}}/{{current_user.id}}">Чаты</a><br>
+        <a class = "bton-ak-yes" href="/ankets/{{chat_id}}/{{current_user.id}}">Анкеты</a>
+    {% elif lenankt == 1 %}
+        <a class = "new-anket-solo" href="/create-anket/{{chat_id}}/{{current_user.id}}">Создать новую анкету +</a><br>
+        <a class = "bton-ch-no-solo" href="/chat/{{chat_id}}/{{current_user.id}}">Чаты</a><br>
+        <a class = "bton-ak-yes-solo" href="/ankets/{{chat_id}}/{{current_user.id}}">Анкеты</a>
+    {% else %}
+        <a class = "new-anket-sol" href="/create-anket/{{chat_id}}/{{current_user.id}}">Создать новую анкету +</a><br>
+        <a class = "bton-ch-no-sol" href="/chat/{{chat_id}}/{{current_user.id}}">Чаты</a><br>
+        <a class = "bton-ak-yes-sol" href="/ankets/{{chat_id}}/{{current_user.id}}">Анкеты</a>
+    {% endif %}
 </div>
 {% endblock %}
