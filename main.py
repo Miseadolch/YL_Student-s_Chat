@@ -726,6 +726,13 @@ def auto_create_chat(first_id, second_id):
     return redirect("/chat/{}/{}".format(chat.id, user_second.id))
 
 
+@app.route('/questions/<int:chat_id>/<int:user_id>')
+def questoins(chat_id, user_id):
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == user_id).first()
+    return render_template("questions.html", photo=user.id, chat_id=chat_id, title="questions")
+
+
 if __name__ == '__main__':
     db_session.global_init("db/students_chat.db")
     app.run(port=8080, host='127.0.0.1')
