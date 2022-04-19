@@ -27,7 +27,7 @@
                 </div>
             {% endfor %}
         </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <span id="passwordHelpBlock" class="help-block"><a href="{{ url_for('.forgot') }}">Забыл пароль</a></span>
         <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     </form>
 {% endblock %}

@@ -1,6 +1,7 @@
 import os
 from PIL import Image
 import io
+import uuid
 from flask import Flask, render_template, make_response, request, redirect, abort, jsonify
 from data import db_session, users_api
 from data.users import User
@@ -8,7 +9,7 @@ from data.chats import Chats
 from data.messages import Messages
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_restful import reqparse, abort, Api, Resource
-from forms.user_login import RegisterForm, LoginForm
+from forms.user_login import RegisterForm, LoginForm, ForgotForm
 from forms.message_form import MessageForm
 from flask import Flask
 
@@ -132,6 +133,26 @@ def login():
 def logout():
     logout_user()
     return redirect("/login")
+
+
+@app.route('/forgot', methods=['GET', 'POST'])
+def forgot():
+    error = None
+    message = None
+    form = ForgotForm()
+    if form.validate_on_submit():
+        user = User.objects.filter(email=form.email.data.lower()).first()
+        if user:
+            code = str(uuid.uuid4())
+            user.change_configuration={
+                "password_reset_code": code
+            }
+            user.save()
+            body_html = render_template("password_reset.html", user=user)
+            body_text = render_template("password_reset.txt", user=user)
+            User.email(user.email, "Password reset request", body_html, body_text)
+        message = "Вы получите элуктронное посьмо для сброса пароля, если мы найдёи это письмо в нашей системе."
+    return render_template("forgot.html", title='ForgotPassword', form=form, error=error, message=message)
 
 
 if __name__ == '__main__':

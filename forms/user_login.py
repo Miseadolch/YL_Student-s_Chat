@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, BooleanField, SubmitField, EmailField, StringField, TextAreaField, IntegerField, \
     FileField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Email, Length
 
 
 class LoginForm(FlaskForm):
@@ -20,3 +20,11 @@ class RegisterForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     group = StringField('Group in lyceum', validators=[DataRequired()])
     submit = SubmitField('Enter')
+
+
+class ForgotForm(FlaskForm):
+    email = EmailField('Email', validators=[DataRequired(), Email()])
+
+
+class PasswordResetForm(FlaskForm):
+    current_password = PasswordField('Current Password', validators=[DataRequired(), Length(min=4, max=80)])
