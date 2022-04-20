@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f24047c7-6064-4530-9450-9bd557d6b07d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/forgot.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/password_reset.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/password_reset.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Lyceum_Student's_Chat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Lyceum_Student's_Chat.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="f24047c7-6064-4530-9450-9bd557d6b07d" name="Changes" comment="сброс пароля(недоделаный)">
+      <change afterPath="$PROJECT_DIR$/templates/_formhelpers.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forms/user_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/forms/user_login.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,6 +123,14 @@
       <option name="presentableId" value="Default" />
       <updated>1648665547085</updated>
     </task>
+    <task id="LOCAL-00001" summary="сброс пароля(недоделаный)">
+      <created>1650400536034</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1650400536034</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -143,7 +144,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/reworking_ankets" />
+                        <option value="origin/v1.12" />
                       </list>
                     </value>
                   </entry>
@@ -155,5 +156,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="сброс пароля(недоделаный)" />
+    <option name="LAST_COMMIT_MESSAGE" value="сброс пароля(недоделаный)" />
   </component>
 </project>
