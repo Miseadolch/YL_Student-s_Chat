@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f24047c7-6064-4530-9450-9bd557d6b07d" name="Changes" comment="add_ankets" />
+    <list default="true" id="f24047c7-6064-4530-9450-9bd557d6b07d" name="Changes" comment="сброс пароля_1">
+      <change afterPath="$PROJECT_DIR$/static/img/photo_for_ava_for_user4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Lyceum_Student's_Chat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Lyceum_Student's_Chat.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/students_chat.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/students_chat.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/hat.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/hat.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
