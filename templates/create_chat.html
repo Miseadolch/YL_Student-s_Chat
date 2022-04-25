@@ -1,0 +1,33 @@
+{% extends "hat.html" %}
+
+{% block content %}
+<h1>Создание чата</h1>
+<form action="" method="post" class="frm-cr-ch">
+    {{ form.hidden_tag() }}
+    {%if message %} 
+    <p class="alert alert-danger" role="alert">
+       {{message}}
+    </p>
+    {%endif%}
+    <p>
+        {{ form.title.label }}<br>
+        {{ form.title(class="form-control") }}<br>
+        {% for error in form.title.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p class="p-cr-ch">
+        {{ form.collaborators.label }}<br>
+        {{ form.collaborators(class="form-control") }}<br>
+        {% for error in form.collaborators.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>{{ form.submit(type="submit", class="btn-vvesti") }}</p>
+    <a class = "btn-vvesti-otmn" href="/chat/{{chat_id}}/{{current_user.id}}".format(user.id)>Отмена</a>
+</form>
+{% endblock %}

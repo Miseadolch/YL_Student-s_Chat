@@ -1,0 +1,124 @@
+{% extends "hat.html" %}
+
+{% block content %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        var chat_id = document.getElementById('ch_id').innerHTML;
+        var user_id = document.getElementById('us_id').innerHTML;
+        $(`#messages${chat_id}`).scrollTop($(`#messages${chat_id}`)[0].scrollHeight);
+        var mess = '';
+        var send_time = '';
+        var hours = '';
+        var minuets = '';
+        var elem = document.getElementById(`#messages${chat_id}`);
+        var namespace ='chat/' + chat_id;
+        var socket = io.connect('http://127.0.0.1:5000/' + namespace);
+        const btn = document.querySelectorAll('.delbutton');
+        btn.forEach((butt) => {
+            butt.addEventListener('click', function(){
+                event.preventDefault();
+                mes_id = butt.parentElement.id.replace('all_mes', '');
+                socket.send(`this soob will be deleted hash 8350e5a3e24c153df2275c9f80692773#${mes_id}`);
+            });
+        });
+        socket.on('message', function(msg) {
+            prov = msg[0].split('#')[0];
+            if (prov == 'this soob will be deleted hash 8350e5a3e24c153df2275c9f80692773'){
+                mes_id = msg[0].split('#')[1];
+                $(`#all_mes${mes_id}`).remove();
+            }
+            else{
+                date = new Date();
+                if (String(date.getHours()).length == 1){
+                    hours = '0'+date.getHours();
+                }
+                else{
+                    hours = date.getHours();
+                }
+                if (String(date.getMinutes()).length == 1){
+                    minuets = '0'+date.getMinutes();
+                }
+                else{
+                    minuets = date.getMinutes();
+                }
+                send_time = hours + ':' + minuets;
+                if (user_id == msg[2]){
+                    $(`#messages${chat_id}`).append(`<div id="all_mes${msg[1]}" class="right"><a class="delbutton"></a><a class="alm-right">`+ msg[0] + `<div class="soob-time">` + send_time + `</div></a><img class="chat_ava" width="36px" height="36px" src=/static/img/photo_for_ava_for_user${msg[2]}.png alt=""/></div>`);
+                }
+                else{
+                    $(`#messages${chat_id}`).append(`<div id="all_mes${msg[1]}" class="left"> <a class="ava_go" href="/another_profile/${chat_id}/${msg[2]}"><img class = "chat_ava_left" width="36px" height="36px" src=/static/img/photo_for_ava_for_user${msg[2]}.png alt=""/></a><a class="alm-left">` + msg[0] + `<div class="soob-time">` + send_time + `</div></a></div>`);
+                }
+                const btn = document.querySelectorAll('.delbutton');
+                btn.forEach((butt) => {
+                    butt.addEventListener('click', function(){
+                        event.preventDefault();
+                        mes_id = butt.parentElement.id.replace('all_mes', '');
+                        socket.send(`this soob will be deleted hash 8350e5a3e24c153df2275c9f80692773#${mes_id}`);
+                    });
+                });
+                $(`#messages${chat_id}`).scrollTop($(`#messages${chat_id}`)[0].scrollHeight);
+                console.log('Received message');
+            }
+        });
+        $('#sendbutton').on('click', function() {
+            socket.send($('#myMessage').val());
+            $('#myMessage').val('');
+        });
+    });
+</script>
+<h2 class="t_chat"><a class="ssl-ch" href="/chat_profile/{{chat_id}}/{{current_user.id}}">{{title}}</a></h2>
+<div class="chat_room">
+    {% for item in user_chats%}
+        {% if chat_id == item.id %}
+            <a class = "chat-now" href="/chat/{{item.id}}/{{current_user.id}}">{{item.title}}</a><br>
+        {% else %}
+            <a class = "chat" href="/chat/{{item.id}}/{{current_user.id}}">{{item.title}}</a><br>
+        {% endif %}
+    {% endfor %}
+</div>
+<div class="chat_room">
+    <form class="chat_room_frm" action="" method="post">
+        {{ form.hidden_tag() }}
+            <div id="messages{{chat_id}}" class="bord">
+                {% for item in messages%}
+                    {% if current_user.id == item.user_id %}
+                        <div id="all_mes{{item.id}}" class="right">
+                            <a class="delbutton"></a>
+                            <a class="alm-right">{{item.text}} <div class="soob-time">{{item.send_time}}</div></a>
+                            <img class = "chat_ava" width="36px" height="36px" src=/static/img/photo_for_ava_for_user{{item.user_id}}.png alt=""/>
+                        </div>
+                    {% else %}
+                        <div id="all_mes{{item.id}}" class="left">
+                            <a class="ava_go" href="/another_profile/{{chat_id}}/{{item.user_id}}"><img class = "chat_ava_left" width="36px" height="36px" src=/static/img/photo_for_ava_for_user{{item.user_id}}.png alt=""/></a>
+                            <a class="alm-left">{{item.text}} <div class="soob-time">{{item.send_time}}</div></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="mess">
+                <form id="messForm">
+                    <h5>Сообщение</h5>
+                    <textarea type="text" id="myMessage" class="form-control"></textarea>
+                    <br>
+                    <p id="sendbutton" class="btn btn-danger">Отправить</p>
+                </form>
+            </div>
+    </form>
+</div>  
+<div class="chat_room">
+    <a class = "new-chat" href="/create_chat/{{chat_id}}/{{current_user.id}}">Создать новый чат +</a><br>
+    <a class = "bton-ch-yes" href="/chat/{{chat_id}}/{{current_user.id}}">Чаты</a><br>
+    <a class = "bton-ak-no" href="/ankets/{{chat_id}}/{{current_user.id}}">Анкеты</a><br>
+    {% if chat_id != 1 %}
+        {% if (author != current_user.id) %}
+            <a class = "exit-chat-solo" href="/yes_no_exit/{{chat_id}}/{{current_user.id}}">Выйти из чата</a><br>
+        {% else %}
+            <a class = "edit-chat" href="/edit_chat/{{chat_id}}/{{current_user.id}}">Редактировать чат</a><br>
+            <a class = "exit-chat" href="/yes_no_exit/{{chat_id}}/{{current_user.id}}">Выйти из чата</a><br>
+            <a class = "del-chat" href="/yes_no_chat/{{chat_id}}/{{current_user.id}}">Удалить чат</a><br>
+        {% endif %}
+    {% endif %}
+</div>
+<div id="ch_id" hidden>{{chat_id}}</div>
+<div id="us_id" hidden>{{current_user.id}}</div>
+{% endblock %}

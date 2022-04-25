@@ -1,0 +1,33 @@
+{% extends "hat.html" %}
+
+{% block content %}
+<div class="chat_room"><a class = "nazad" href="/chat/{{chat_id}}/{{current_user.id}}">← Назад</a></div>
+<h2 class="prof_t">{{title}}</h2>
+<div class="prof_box">
+    <img class = "prof_ava" width="95px" height="95px" src=/static/img/photo_for_ava_for_user{{prof_photo}}.png alt=""/><br>
+    <a class = "prof_nick">{{user.nickname}}</a><br>
+    <a class = "prof_group">Группа:{{user.group.split('/')[1]}} Курс:{{user.group.split('/')[3]}}</a><br>
+</div>
+<a class = "napis" href="/auto_create_solo_chat/{{user.id}}/{{current_user.id}}">Написать</a><br>
+<h3 class="another-prof-h">Анкеты пользователя</h3>
+<div class="chat_room">
+    <div class="chat_room_ankts">
+        {% for item in ankets_first%}
+            <a class = "ankt-prof" href="/anketa/{{item[1].id}}/{{chat_id}}/{{current_user.id}}">
+                Автор: <br> {{item[0]}} <img class = "ankt_prof_ava" width="40px" height="40px" src=/static/img/photo_for_ava_for_user{{item[1].author}}.png alt=""/> <br><br>
+                Тема: <br> {{item[1].theme}}<br><br>
+                Группа: <br>{{item[1].group.split('/')[1]}} Курс:{{item[1].group.split('/')[3]}}<br><br>
+            </a><br>
+        {% endfor %}
+    </div>
+    <div class="chat_room_ankts">
+        {% for item in ankets_second%}
+            <a class = "ankt-prof" href="/anketa/{{item[1].id}}/{{chat_id}}/{{current_user.id}}">
+                Автор: <br> {{item[0]}} <img class = "ankt_prof_ava" width="40px" height="40px" src=/static/img/photo_for_ava_for_user{{item[1].author}}.png alt=""/><br><br>
+                Тема: <br> {{item[1].theme}}<br><br>
+                Группа: <br> {{item[1].group.split('/')[1]}} Курс:{{item[1].group.split('/')[3]}}<br><br>
+            </a><br>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

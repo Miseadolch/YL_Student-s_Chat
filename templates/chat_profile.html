@@ -1,0 +1,29 @@
+{% extends "hat.html" %}
+
+{% block content %}
+<div class="chat_room"><a class = "nazad" href="/chat/{{chat_id}}/{{current_user.id}}">← Назад</a></div>
+<h2 class="chat_prof_t">{{title}}</h2>
+<div class="chat_prof_box">
+    <div class="chat_prof_nadp">Участники чата</div>
+    <div class="chat_prof_bord">
+        {% for item in members%}
+            {% if item.id == current_user.id %}
+                <a class="chat_prof_mem" href="/profile/{{chat_id}}/{{current_user.id}}">{{item.nickname}} <img class = "chat_prof_ava" width="40px" height="40px" src=/static/img/photo_for_ava_for_user{{item.id}}.png alt=""/></a><br>
+            {% else %}
+                <a class="chat_prof_mem" href="/another_profile/{{chat_id}}/{{item.id}}">{{item.nickname}} <img class = "chat_prof_ava" width="40px" height="40px" src=/static/img/photo_for_ava_for_user{{item.id}}.png alt=""/></a><br>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<div class="chat_prof_box">
+    <div class="chat_prof_nadp_adm">Администратор чата</div>
+   <br>
+   {% if admin != "" %}
+            {% if admin.id == current_user.id %}
+                <a class="chat_prof_adm" href="/profile/{{chat_id}}/{{current_user.id}}">{{admin.nickname}} <img class = "chat_prof_ava" width="50px" height="50px" src=/static/img/photo_for_ava_for_user{{admin.id}}.png alt=""/></a><br>
+            {% else %}
+                <a class="chat_prof_adm" href="/another_profile/{{chat_id}}/{{admin.id}}">{{admin.nickname}} <img class = "chat_prof_ava" width="40px" height="40px" src=/static/img/photo_for_ava_for_user{{admin.id}}.png alt=""/></a><br>
+            {% endif %}
+   {% endif %}
+</div>
+{% endblock %}

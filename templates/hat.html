@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.1/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>  
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <title>{{title}} YandexLyceumStudentsChat</title>
+  </head>
+  <body class="body">
+    <header class="header">
+      <div class="content_block">
+        <div class="header_inner">
+          <div class="header_logo">
+            {% if (current_user.is_authenticated) and (current_user.sing_in == 1) %}
+            <h1><a class="prof_away" href="/chat/1/{{current_user.id}}">YL Student's Chat</a></h1>
+            {% else %}
+            <h1>YL Student's Chat</h1>
+            {% endif %}
+          </div>
+          {% if (current_user.is_authenticated) and (current_user.sing_in == 1) %}
+          <nav class="nav">
+            <a class="nav_link_zad" href="/questions/{{chat_id}}/{{current_user.id}}">Задать вопрос</a>
+            <a class="nav_link" href="/profile/{{chat_id}}/{{current_user.id}}">{{ current_user.nickname }}</a>
+            <img class="nav_link" width="50px" height="50px" src=/static/img/photo_for_ava_for_user{{photo}}.png class="avatar" alt=""/>
+          </nav>
+          {% else %}
+          <p>
+            <a class="btn btn-primary" href="/register">Зарегистрироваться</a>
+            <a class="btn btn-success" href="/login">Войти</a>
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+    <main role="main" class="intro">
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

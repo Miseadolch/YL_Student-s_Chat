@@ -1,0 +1,9 @@
+{% extends "hat.html" %}
+
+{% block content %}
+<br>
+<h2>Вы действительно хотите выйти из аккаунта?</h2>
+<a class = "yes-ex-ak" href="/logout">Выйти из аккаунта</a><br>
+<a class = "del-no" href="/profile/{{chat_id}}/{{current_user.id}}">Отмена</a>
+</div>
+{% endblock %}
